@@ -1,6 +1,7 @@
-# bmi_calculator
+# Bmi_calculator
 
-A basic BMI calculator
+A basic BMI calculator using `Flutter`
+> Under construction 👷🏗🚧
 
 ## Getting Started
 
