@@ -1,7 +1,7 @@
 # Bmi_calculator
 
 A basic BMI calculator using `Flutter`<br>
-Screen Shoot
+Screenshot
 
 
 ![](1.gif)
