@@ -20,6 +20,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   int height = 180;
+  int weight = 50;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +98,34 @@ class _InputPageState extends State<InputPage> {
           ),),
           Expanded(child: Row(
             children: <Widget>[
-              Expanded(child: ReusableCard(color: kActiveCardColor),),
+              Expanded(child: ReusableCard(color: kActiveCardColor,
+                iconContent: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('WEIGHT',style: labelTextStyle,),
+                    Text(weight.toString(),style: kNumberTextStyle,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RoundIconButton(icon: FontAwesomeIcons.plus,iconColor: Colors.white,onPressed: (){
+                          setState(() {
+                            weight++;
+                          });
+                        },),
+                        SizedBox(width: 6.0,),
+                        RoundIconButton(icon: FontAwesomeIcons.minus,iconColor: Colors.white,
+                          onPressed: (){
+                          setState(() {
+                            weight--;
+                          });
+                          },
+                        ),
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),),
               Expanded(child: ReusableCard(color: kActiveCardColor),),
             ],
           ),),
@@ -114,6 +142,27 @@ class _InputPageState extends State<InputPage> {
     );
   }
 }
+class RoundIconButton extends StatelessWidget {
+  RoundIconButton({this.icon,this.iconColor,this.onPressed});
+  final IconData icon;
+  final Color iconColor;
+  final Function onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      child: Icon(icon,color: iconColor,),
+        constraints: BoxConstraints.tightFor(
+          width: 56.0,
+          height: 56.0,
+        ),
+        onPressed:onPressed,
+      shape: CircleBorder(),
+      fillColor: Color(0xFF4C4F5E),
+      elevation: 5.0,
+    );
+  }
+}
+
 
 
 
