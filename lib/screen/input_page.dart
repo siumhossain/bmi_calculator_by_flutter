@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'reusable_card.dart';
-import 'icon_content.dart';
-import 'constant.dart';
+import '../component/reusable_card.dart';
+import '../component/icon_content.dart';
+import '../component/constant.dart';
+import 'result_page.dart';
+import '../component/calculate.dart';
+import '../component/bottom_button.dart';
+import '../component/round_icon_button.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Gender selectedGender;
@@ -21,6 +25,7 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   int height = 180;
   int weight = 50;
+  int age = 18;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,14 +67,14 @@ class _InputPageState extends State<InputPage> {
                 iconContent: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('HEIGHT',style: labelTextStyle,),
+                  Text('HEIGHT',style: kLabelTextStyle,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
                       Text(height.toString(),style: kNumberTextStyle,),
-                      Text('cm',style: labelTextStyle,),
+                      Text('cm',style: kLabelTextStyle,),
                     ],
                   ),
                 SliderTheme(
@@ -102,21 +107,21 @@ class _InputPageState extends State<InputPage> {
                 iconContent: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('WEIGHT',style: labelTextStyle,),
+                    Text('WEIGHT',style: kLabelTextStyle,),
                     Text(weight.toString(),style: kNumberTextStyle,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        RoundIconButton(icon: FontAwesomeIcons.plus,iconColor: Colors.white,onPressed: (){
+                        RoundIconButton(icon: FontAwesomeIcons.minus,iconColor: Colors.white,onPressed: (){
                           setState(() {
-                            weight++;
+                            weight--;
                           });
                         },),
                         SizedBox(width: 6.0,),
-                        RoundIconButton(icon: FontAwesomeIcons.minus,iconColor: Colors.white,
+                        RoundIconButton(icon: FontAwesomeIcons.plus,iconColor: Colors.white,
                           onPressed: (){
                           setState(() {
-                            weight--;
+                            weight++;
                           });
                           },
                         ),
@@ -126,15 +131,43 @@ class _InputPageState extends State<InputPage> {
                   ],
                 ),
               ),),
-              Expanded(child: ReusableCard(color: kActiveCardColor),),
+              Expanded(child: ReusableCard(color: kActiveCardColor,
+                iconContent: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('AGE',style: kLabelTextStyle,),
+                  Text(age.toString(),style: kNumberTextStyle,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RoundIconButton(icon: FontAwesomeIcons.minus,iconColor: Colors.white,onPressed: (){
+                        setState(() {
+                          age--;
+                        });
+                      },),
+                      SizedBox(width: 6.0,),
+                      RoundIconButton(icon: FontAwesomeIcons.plus,iconColor: Colors.white,
+                        onPressed: (){
+                          setState(() {
+                            age++;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+
+                ],
+              ),),),
             ],
           ),),
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-          ),
+          BottomButton(title: 'CALCULATE',onPressed: (){
+            Calculate calc = Calculate(height: height,weight: weight);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ResultPage(
+              bmiResult: calc.calculateBmi(),
+              resultText: calc.getResult(),
+              suggestion: calc.suggestion(),
+            )));
+          },),
         ],
       ),
 
@@ -142,26 +175,9 @@ class _InputPageState extends State<InputPage> {
     );
   }
 }
-class RoundIconButton extends StatelessWidget {
-  RoundIconButton({this.icon,this.iconColor,this.onPressed});
-  final IconData icon;
-  final Color iconColor;
-  final Function onPressed;
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(icon,color: iconColor,),
-        constraints: BoxConstraints.tightFor(
-          width: 56.0,
-          height: 56.0,
-        ),
-        onPressed:onPressed,
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
-      elevation: 5.0,
-    );
-  }
-}
+
+
+
 
 
 
